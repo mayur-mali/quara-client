@@ -1,7 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useRef } from "react";
+import { Link, useHistory } from "react-router-dom";
 import img from "../../assets/6207670.jpg";
+import { axiosInstance } from "../../axiosIntence";
 export default function Register() {
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
+  const confirmPassword = useRef();
+  const history = useHistory();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (confirmPassword.current.value !== password.current.value) {
+      password.current.setCustomValidity("password don't match");
+    } else {
+      const user = {
+        username: username.current.value,
+        email: email.current.value,
+        password: password.current.value,
+      };
+      try {
+        await axiosInstance.post("auth/register", user);
+        history.push("/login");
+      } catch (error) {
+        console.log("error in signup", error);
+      }
+    }
+  };
+
   return (
     <div>
       <div className="min-h-screen bg-white flex">
@@ -76,7 +101,11 @@ export default function Register() {
               </div>
 
               <div className="mt-6">
-                <form action="#" method="POST" className="space-y-6">
+                <form
+                  method="POST"
+                  className="space-y-6"
+                  onSubmit={handleSubmit}
+                >
                   <div>
                     <label
                       htmlFor="name"
@@ -89,6 +118,7 @@ export default function Register() {
                         name="name"
                         type="text"
                         required
+                        ref={username}
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -106,7 +136,8 @@ export default function Register() {
                         name="email"
                         type="email"
                         autoComplete="email"
-                        required=""
+                        required
+                        ref={email}
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -121,11 +152,29 @@ export default function Register() {
                     </label>
                     <div className="mt-1">
                       <input
-                        id="password"
                         name="password"
                         type="password"
                         autoComplete="current-password"
-                        required=""
+                        required
+                        ref={password}
+                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Confirm Password
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        ref={confirmPassword}
                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>

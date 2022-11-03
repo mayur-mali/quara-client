@@ -1,13 +1,21 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import img from "../../assets/6207670.jpg";
+import { loginCall } from "../../apiCalls";
+import { AuthContext } from "../../context/AuthContext";
 export default function Login() {
   const email = useRef();
   const password = useRef();
+  const { dispatch, user, isFetching } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`${email.current.value} & ${password.current.value}`);
+    loginCall(
+      { email: email.current.value, password: password.current.value },
+      dispatch
+    );
   };
+  console.log(user);
+
   return (
     <div>
       <div className="min-h-screen bg-white flex">
@@ -155,9 +163,10 @@ export default function Login() {
                   <div>
                     <button
                       type="submit"
+                      disabled={isFetching}
                       className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                      Sign in
+                      {isFetching ? "loding.." : "Sign in"}
                     </button>
                   </div>
                 </form>

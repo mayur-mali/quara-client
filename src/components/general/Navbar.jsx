@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { LogOut } from "../../context/AuthAction";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Navbar() {
   const [profileMenu, setProfileMenu] = useState(false);
+
+  const { dispatch } = useContext(AuthContext);
 
   return (
     <div className=" fixed w-full bg-gray-100 shadow">
@@ -22,7 +26,7 @@ export default function Navbar() {
           ></div>
           {profileMenu && (
             <div className="w-56 bg-white shadow-lg absolute right-0 top-12 p-4 rounded-lg">
-              jajasdf
+              <button onClick={() => dispatch(LogOut())}>sign out</button>
             </div>
           )}
         </div>

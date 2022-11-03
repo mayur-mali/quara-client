@@ -1,18 +1,28 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import routes from "./routes/routes";
+import { useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import Home from "./components/general/Home";
+import { AuthContext } from "./context/AuthContext";
+
 function App() {
+  const { user } = useContext(AuthContext);
   return (
     <div className="App">
       <Router>
         <Switch>
-          {routes.map((route, i) => (
-            <Route
-              key={i}
-              path={route.path}
-              exact={route.exact}
-              component={route.component}
-            />
-          ))}
+          <Route exact path="/">
+            {user ? <Home /> : <Register />}
+          </Route>
+          <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+          <Route path="/register">
+            {user ? <Redirect to="/" /> : <Register />}
+          </Route>
         </Switch>
       </Router>
     </div>
