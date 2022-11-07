@@ -1,12 +1,12 @@
 import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
-import img from "../../assets/6207670.jpg";
-import { loginCall } from "../../apiCalls";
-import { AuthContext } from "../../context/AuthContext";
+import img from "../assets/6207670.jpg";
+import { loginCall } from "../apiCalls";
+import { AuthContext } from "../context/AuthContext";
 export default function Login() {
   const email = useRef();
   const password = useRef();
-  const { dispatch, user, isFetching } = useContext(AuthContext);
+  const { dispatch, isFetching } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     loginCall(
@@ -14,7 +14,6 @@ export default function Login() {
       dispatch
     );
   };
-  console.log(user);
 
   return (
     <div>

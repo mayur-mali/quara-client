@@ -5,8 +5,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Home from "./components/general/Home";
 import { AuthContext } from "./context/AuthContext";
 
@@ -17,8 +17,8 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Home />
-            {/*user ? <Home /> : <Register />*/}
+            {/* <Home />*/}
+            {user ? <Home /> : <Redirect to="/register" />}
           </Route>
           <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
           <Route path="/register">

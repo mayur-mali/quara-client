@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
-import img from "../../assets/6207670.jpg";
-import { axiosInstance } from "../../axiosIntence";
+import img from "../assets/6207670.jpg";
+import { axiosInstance } from "../axiosIntence";
+
 export default function Register() {
   const username = useRef();
   const email = useRef();
