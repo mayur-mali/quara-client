@@ -9,7 +9,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./components/general/Home";
 import { AuthContext } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const { user } = useContext(AuthContext);
   return (
@@ -26,6 +28,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      <ToastContainer />
     </div>
   );
 }

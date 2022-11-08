@@ -1,14 +1,107 @@
-import React from "react";
-import { useState } from "react";
-import { useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { postQuestion } from "../../apiCalls";
+import imageCompression from "browser-image-compression";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import app from "../../config/firebase-config";
 
 export default function PostQuestion() {
-  const [img, setImg] = useState(null);
+  const { user } = useContext(AuthContext);
   const content = useRef();
-  const image = useRef();
-  const handlePosting = (e) => {
+  const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
+  const [postImgUrl, setPostImgUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
+  function handleImageUpload(image) {
+    var imageFile = image;
+    var options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    imageCompression(imageFile, options)
+      .then(function (compressedFile) {
+        setFile(compressedFile);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  }
+
+  useEffect(() => {
+    if (image) {
+      handleImageUpload(image);
+    }
+  }, [image]);
+
+  useEffect(() => {
+    if (file) {
+      setUploading(true);
+      const fileName = new Date().getTime() + "_" + file.name;
+      const storage = getStorage(app);
+      const StorageRef = ref(storage, fileName);
+
+      const uploadTask = uploadBytesResumable(StorageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+          }
+          setFile(null);
+        },
+        (error) => {
+          console.log(error);
+          setUploading(false);
+        },
+        () => {
+          setFile(null);
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setPostImgUrl(downloadURL);
+            setUploading(false);
+          });
+        }
+      );
+    }
+    setFile(null);
+  }, [file]);
+
+  const handlePosting = async (e) => {
     e.preventDefault();
-    console.log({ c: content.current.value, img });
+    postQuestion(content.current.value, user.user._id, postImgUrl);
+    content.current.value = "";
+    setFile(null);
+    setImage(null);
+    setPostImgUrl(null);
+  };
+
+  const deleteCoverimg = () => {
+    const storage = getStorage();
+    const desertRef = ref(storage, postImgUrl);
+    deleteObject(desertRef)
+      .then(() => {
+        // File deleted successfully
+        setPostImgUrl(null);
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+      });
   };
   return (
     <div className="w-full rounded-md bg-white p-4 shadow-md">
@@ -19,8 +112,31 @@ export default function PostQuestion() {
             className="w-full p-2 focus:outline-none placeholder:text-2xl text-2xl"
             placeholder="What is your Question?"
             ref={content}
+            required
           ></textarea>
         </div>
+        {uploading && (
+          <div className="flex items-center space-x-4">
+            <h3 className="text-black">Uploading...</h3>
+          </div>
+        )}
+        {postImgUrl && (
+          <>
+            <div className="w-full h-56 relative">
+              <img
+                src={postImgUrl}
+                alt="post-img"
+                className="absolute h-full w-full rounded-md object-cover"
+              />
+            </div>
+            <span
+              className="text-black justify-center cursor-pointer flex space-x-4 items-center mt-4 border px-4 py-2 w-56 rounded-md"
+              onClick={deleteCoverimg}
+            >
+              <h6>Remove Image..</h6>
+            </span>
+          </>
+        )}
         <div className="flex mt-2 justify-between items-center">
           <div>
             <label
@@ -48,7 +164,7 @@ export default function PostQuestion() {
               name=""
               id="add-image"
               hidden
-              onChange={(e) => setImg(e.target.files[0])}
+              onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
           <div>
