@@ -2,6 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { postQuestion } from "../../apiCalls";
 import imageCompression from "browser-image-compression";
+import { toast } from "react-toastify";
 import {
   getStorage,
   ref,
@@ -22,7 +23,7 @@ export default function PostQuestion() {
   function handleImageUpload(image) {
     var imageFile = image;
     var options = {
-      maxSizeMB: 1,
+      maxSizeMB: 0.5,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
     };
@@ -54,17 +55,11 @@ export default function PostQuestion() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-            default:
+
+          if (progress === 100) {
+            setFile(null);
+            setImage(null);
           }
-          setFile(null);
         },
         (error) => {
           console.log(error);
@@ -74,6 +69,16 @@ export default function PostQuestion() {
           setFile(null);
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setPostImgUrl(downloadURL);
+            toast.success("file is uploaded!", {
+              position: "top-right",
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
             setUploading(false);
           });
         }
@@ -82,13 +87,13 @@ export default function PostQuestion() {
     setFile(null);
   }, [file]);
 
-  const handlePosting = async (e) => {
+  const handlePosting = (e) => {
     e.preventDefault();
     postQuestion(content.current.value, user.user._id, postImgUrl);
     content.current.value = "";
     setFile(null);
     setImage(null);
-    setPostImgUrl(null);
+    // setPostImgUrl(null);
   };
 
   const deleteCoverimg = () => {
@@ -98,9 +103,29 @@ export default function PostQuestion() {
       .then(() => {
         // File deleted successfully
         setPostImgUrl(null);
+        toast.success("image is remove!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
+        toast.error("somthing wrong while remove image!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
   };
   return (
@@ -137,6 +162,7 @@ export default function PostQuestion() {
             </span>
           </>
         )}
+
         <div className="flex mt-2 justify-between items-center">
           <div>
             <label
@@ -144,7 +170,7 @@ export default function PostQuestion() {
               className="bg-purple-400 flex gap-2 cursor-pointer w-40 rounded-full py-1 px-6 text-white"
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/1000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.4}

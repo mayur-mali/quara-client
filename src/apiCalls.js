@@ -36,7 +36,7 @@ export const postQuestion = async (content, user, imageurl) => {
     await axiosInstance.post("create/question", { content, user, imageurl });
     toast.success("Quesion Is Posted !", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -45,9 +45,9 @@ export const postQuestion = async (content, user, imageurl) => {
       theme: "light",
     });
   } catch (err) {
-    toast.error(`${err.message}`, {
+    toast.error("somthing error while posting question ", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

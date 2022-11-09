@@ -10,6 +10,7 @@ export default function Home() {
         <div className="max-w-7xl flex gap-x-4 w-full mx-auto">
           <div className="flex-1 bg-red-100 ">channel</div>
           <div className="w-full max-w-xl ">
+            {/* <PostQuestion />*/}
             <PostQuestion />
           </div>
           <div className="flex-1  bg-red-100 "></div>
