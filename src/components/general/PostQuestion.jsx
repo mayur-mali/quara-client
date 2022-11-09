@@ -11,6 +11,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import app from "../../config/firebase-config";
+import { Redirect } from "react-router-dom";
 
 export default function PostQuestion() {
   const { user } = useContext(AuthContext);
@@ -88,12 +89,12 @@ export default function PostQuestion() {
   }, [file]);
 
   const handlePosting = (e) => {
-    e.preventDefault();
+    // e.preventDafault();
     postQuestion(content.current.value, user.user._id, postImgUrl);
     content.current.value = "";
     setFile(null);
     setImage(null);
-    // setPostImgUrl(null);
+    setPostImgUrl(null);
   };
 
   const deleteCoverimg = () => {

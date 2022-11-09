@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,10 +10,11 @@ import Register from "./pages/Register";
 import Home from "./components/general/Home";
 import { AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const { user } = useContext(AuthContext);
+
   return (
     <div className="App">
       <Router>

@@ -33,7 +33,7 @@ export const loginCall = async (userCredianitials, dispatch) => {
 
 export const postQuestion = async (content, user, imageurl) => {
   try {
-    await axiosInstance.post("create/question", { content, user, imageurl });
+    await axiosInstance.post("post/question", { content, user, imageurl });
     toast.success("Quesion Is Posted !", {
       position: "top-right",
       autoClose: 1000,
