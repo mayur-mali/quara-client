@@ -1,16 +1,22 @@
 import React from "react";
-
-export default function PostUser() {
+import dayjs from "dayjs";
+export default function PostUser(props) {
+  // var localizedFormat = require("dayjs/plugin/localizedFormat");
+  var relativeTime = require("dayjs/plugin/relativeTime");
+  dayjs.extend(relativeTime);
   return (
-    <div>
-      <div className=" flex-none flex ">
+    <div className="mb-3">
+      <div className=" flex-none flex items-center">
         <img
           src="https://randomuser.me/api/portraits/men/62.jpg "
           className="rounded-full w-8 h-8"
           alt=""
         />
-        <div>
-          <h2>Harry Potter</h2>
+        <div className="flex flex-col ml-2 items-start w-auto">
+          <h2 className="text-lg capitalize font-semibold">{props.username}</h2>
+          <h6 className="text-xs capitalize text-gray-500">
+            Posted At : <span>{dayjs(props.createdAt).fromNow()}</span>
+          </h6>
         </div>
       </div>
     </div>

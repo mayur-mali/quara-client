@@ -57,3 +57,30 @@ export const postQuestion = async (content, user, imageurl) => {
     });
   }
 };
+
+export const postAnswer = async (content, question, user) => {
+  try {
+    await axiosInstance.post("post/answer", { content, question, user });
+    toast.success("Answer Is Posted !", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  } catch (err) {
+    toast.error("somthing error while posting answer ", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+};

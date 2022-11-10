@@ -2,12 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { axiosInstance } from "../../axiosIntence";
-import PostUser from "./PostUser";
-import Voting from "./Voting";
+import Post from "./Post";
 
 export default function Feed() {
   const [posts, setPost] = useState([]);
 
+  function toggleSeeMore(state) {}
   useEffect(() => {
     const getAllQuestions = async () => {
       try {
@@ -25,29 +25,7 @@ export default function Feed() {
       {posts && (
         <div>
           {posts.map((post, i) => (
-            <div
-              key={i}
-              className="mt-4  flex rounded-md bg-white shadow-md p-4"
-            >
-              <Voting />
-              <div className="w-full px-2">
-                <PostUser />
-                <h1 className="text-2xl mb-4 font-bold">{post.content}</h1>
-                <hr className="mb-4" />
-                {post.imageurl && (
-                  <img
-                    src={post.imageurl}
-                    className="rounded-md"
-                    alt={post.content}
-                  />
-                )}
-                <ul>
-                  {post.answer.map((ans, i) => (
-                    <li key={i}>{ans.content}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <Post key={i} post={post} />
           ))}
         </div>
       )}
