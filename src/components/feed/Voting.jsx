@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Voting() {
   return (
-    <div className="h-full flex flex-col items-center  space-y-2 w-10 ">
+    <div className="flex w-auto">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

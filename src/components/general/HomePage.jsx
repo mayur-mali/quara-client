@@ -1,9 +1,8 @@
 import React from "react";
 import Feed from "../feed/Feed";
-import Navbar from "./Navbar";
 import PostQuestion from "./PostQuestion";
-
-export default function Home() {
+import Navbar from "./Navbar";
+export default function HomePage() {
   return (
     <div className="relative h-auto">
       <Navbar />

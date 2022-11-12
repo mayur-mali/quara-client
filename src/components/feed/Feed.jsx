@@ -7,7 +7,6 @@ import Post from "./Post";
 export default function Feed() {
   const [posts, setPost] = useState([]);
 
-  function toggleSeeMore(state) {}
   useEffect(() => {
     const getAllQuestions = async () => {
       try {

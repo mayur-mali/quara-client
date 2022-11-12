@@ -9,7 +9,7 @@ export default function Navbar() {
   const { dispatch, user } = useContext(AuthContext);
 
   return (
-    <div className="fixed w-full bg-gray-100 shadow ">
+    <div className="fixed w-full bg-gray-100 shadow z-20">
       <div className="max-w-7xl h-12 py-8 px-4 flex gap-x-4 md:gap-x-0 justify-between items-center mx-auto relative">
         <div>
           <h3>Quora</h3>
