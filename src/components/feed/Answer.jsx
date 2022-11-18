@@ -1,19 +1,53 @@
 import React, { useContext } from "react";
+import { useRef } from "react";
 import { useState } from "react";
-import { postAnswer } from "../../apiCalls";
+import { postComment } from "../../apiCalls";
 import { AuthContext } from "../../context/AuthContext";
+
 import Comments from "./Comments";
 import PostUser from "./PostUser";
 export default function Answer(props) {
-  const { content, user, comment } = props.ans;
+  const { content, user, comment, _id } = props.ans;
+  const [toggleComment, setToggleComment] = useState(false);
+  const postCommentContent = useRef();
+  const { user: currentUser } = useContext(AuthContext);
+  const handlePostComment = () => {
+    postComment(postCommentContent.current.value, _id, currentUser.user);
+    postComment.current.value = "";
+    window.location.reload();
+  };
+  console.log(props.ans);
   return (
     <div className="bg-gray-50 border rounded-md p-4">
       <PostUser username={user.username} createAt={user.createAt} />
-      <h2 className="text-md font-medium capitalize">{content}</h2>
-      {comment?.map((comment, i) => (
-        <Comments key={i} comment={comment} />
-      ))}
-      <div className="flex space-x-4">
+      <h2 className="text-md font-medium capitalize mb-2">
+        {content} {_id}
+      </h2>
+      {toggleComment && (
+        <div className="">
+          {comment?.map((c, i) => (
+            <Comments key={i} comment={c} />
+          ))}
+          <div className="h-10 mt-10 flex w-full">
+            <input
+              type="text"
+              name="comment"
+              className="focus:outline-none flex-1 border px-3 py-1"
+              required
+              placeholder="type comment on answer"
+              ref={postCommentContent}
+            />
+            <button
+              className="bg-gray-50 px-3 py-1 flex-none border"
+              onClick={handlePostComment}
+            >
+              add comment
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="flex space-x-4 mt-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -35,6 +69,7 @@ export default function Answer(props) {
           strokeWidth={1.5}
           stroke="currentColor"
           className="w-6 h-6"
+          onClick={() => setToggleComment(!toggleComment)}
         >
           <path
             strokeLinecap="round"

@@ -85,6 +85,33 @@ export const postAnswer = async (content, question, user) => {
   }
 };
 
+export const postComment = async (content, answer, user) => {
+  try {
+    await axiosInstance.post("post/comment", { content, answer, user });
+    toast.success("Comment Is Posted !", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  } catch (err) {
+    toast.error("somthing error while posting comment ", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+};
+
 export const userProfile = async (id) => {
   try {
     const res = await axiosInstance.get(`/users/${id}`);

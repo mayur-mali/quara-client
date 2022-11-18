@@ -10,7 +10,7 @@ export default function Post(props) {
   const { content, imageurl, answer, user, _id } = props.post;
   const [seeMoreContent, setSeeMoreContent] = useState(false);
   const [postAnswerContent, setPostAnswerContent] = useState(null);
-  const currentUser = JSON.parse(sessionStorage.getItem("user"));
+  const currentUser = JSON.parse(localStorage.getItem("user"));
   const handlePostAnswer = () => {
     postAnswer(postAnswerContent, _id, currentUser.user._id);
     setPostAnswerContent(null);
@@ -20,14 +20,16 @@ export default function Post(props) {
   return (
     <div className="mt-4   rounded-md bg-white shadow-md p-4">
       <div className="w-full space-y-4 px-2">
-        <div className="flex justify-between">
-          <PostUser
-            username={user.username}
-            createAt={user.createAt}
-            userid={user._id}
-          />
-          <Voting />
-        </div>
+        {user && (
+          <div className="flex justify-between">
+            <PostUser
+              username={user.username}
+              createAt={user.createAt}
+              userid={user._id}
+            />
+            <Voting />
+          </div>
+        )}
         <h1 className="text-2xl mb-4 font-bold">{content}</h1>
         <hr className="mb-4" />
         {imageurl && (
@@ -43,6 +45,7 @@ export default function Post(props) {
                 type="text"
                 name="answer"
                 className="focus:outline-none pl-6 flex-1"
+                placeholder={`write your answer ${currentUser.user.username}`}
                 onChange={(e) => setPostAnswerContent(e.target.value)}
               />
               <button

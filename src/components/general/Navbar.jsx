@@ -14,12 +14,14 @@ export default function Navbar() {
         <div>
           <h3>Quora</h3>
         </div>
-        <div className="max-w-md w-full">
-          <input
-            type="text"
-            className="w-full px-6 rounded-md py-2 focus:outline-none"
-          />
-        </div>
+        {user && (
+          <div className="max-w-md w-full">
+            <input
+              type="text"
+              className="w-full px-6 rounded-md py-2 focus:outline-none"
+            />
+          </div>
+        )}
         <div className="md:hidden block">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -37,19 +39,20 @@ export default function Navbar() {
             />
           </svg>
         </div>
-
-        <div className="max-w-4xl hidden md:block relative">
-          <div
-            className="rounded-full h-10 w-10 bg-red-300 cursor-pointer"
-            onClick={() => setProfileMenu(!profileMenu)}
-          ></div>
-          {profileMenu && (
-            <div className="w-56 bg-white shadow-lg absolute right-0 top-12 p-4 rounded-lg">
-              <h2>{user.user.username}</h2>
-              <button onClick={() => dispatch(LogOut())}>sign out</button>
-            </div>
-          )}
-        </div>
+        {user && (
+          <div className="max-w-4xl hidden md:block relative">
+            <div
+              className="rounded-full h-10 w-10 bg-red-300 cursor-pointer"
+              onClick={() => setProfileMenu(!profileMenu)}
+            ></div>
+            {profileMenu && (
+              <div className="w-56 bg-white shadow-lg absolute right-0 top-12 p-4 rounded-lg">
+                <h2>{user.user.username}</h2>
+                <button onClick={() => dispatch(LogOut())}>sign out</button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {mobileMenu && (
         <div className="md:hidden bg-white h-screen block absolute w-full right-0 top-0 ">
@@ -79,20 +82,22 @@ export default function Navbar() {
               <li className="text-2xl py-4 text-center">home</li>
             </ul>
           </div>
-          <div className="bg-white flex items-center justify-end px-8 absolute bottom-0 border-t-2 h-20 w-full">
-            <div className="relative ">
-              <div
-                className="rounded-full h-10 w-10 bg-red-300 cursor-pointer"
-                onClick={() => setProfileMenu(!profileMenu)}
-              ></div>
-              {profileMenu && (
-                <div className="w-56 bg-white shadow-lg absolute -top-20 right-0  p-4 rounded-lg">
-                  <h2>{user.user.username}</h2>
-                  <button onClick={() => dispatch(LogOut())}>sign out</button>
-                </div>
-              )}
+          {user && (
+            <div className="bg-white flex items-center justify-end px-8 absolute bottom-0 border-t-2 h-20 w-full">
+              <div className="relative ">
+                <div
+                  className="rounded-full h-10 w-10 bg-red-300 cursor-pointer"
+                  onClick={() => setProfileMenu(!profileMenu)}
+                ></div>
+                {profileMenu && (
+                  <div className="w-56 bg-white shadow-lg absolute -top-20 right-0  p-4 rounded-lg">
+                    <h2>{user.user.username}</h2>
+                    <button onClick={() => dispatch(LogOut())}>sign out</button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
