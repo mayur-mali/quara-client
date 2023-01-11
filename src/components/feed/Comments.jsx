@@ -6,7 +6,8 @@ export default function Comments(props) {
     <div className="text-black ml-8 px-4 py-2 mt-2 border">
       <PostUser
         username={props.comment.user.username}
-        createAt={props.comment.user.createAt}
+        createdAt={props.comment.user.createdAt}
+        userid={props.comment.user._id}
       />
       {props.comment.content}
     </div>

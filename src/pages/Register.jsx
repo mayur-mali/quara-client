@@ -27,7 +27,9 @@ export default function Register() {
       }
     }
   };
-
+  const google = () => {
+    window.open("http://localhost:8000/api/auth/google", "_self");
+  };
   return (
     <div>
       <div className="min-h-screen bg-white flex">
@@ -64,6 +66,7 @@ export default function Register() {
                         width="25"
                         height="25"
                         viewBox="0 0 48 48"
+                        onClick={google}
                       >
                         <path
                           fill="#FFC107"

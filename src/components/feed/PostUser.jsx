@@ -1,6 +1,5 @@
 import React from "react";
 import dayjs from "dayjs";
-
 import { Link } from "react-router-dom";
 export default function PostUser(props) {
   // var localizedFormat = require("dayjs/plugin/localizedFormat");

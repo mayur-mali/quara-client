@@ -24,7 +24,7 @@ export default function Post(props) {
           <div className="flex justify-between">
             <PostUser
               username={user.username}
-              createAt={user.createAt}
+              createdAt={user.createdAt}
               userid={user._id}
             />
             <Voting />

@@ -5,110 +5,38 @@ export const loginCall = async (userCredianitials, dispatch) => {
   try {
     const res = await axiosInstance.post("auth/login", userCredianitials);
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-    toast.success("Logged In!", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.success("Logged In!");
   } catch (error) {
     dispatch({ type: "LOGIN_FAILURE", payload: error });
-    console.log(error.response.data);
-    toast.error(`${error.response.data}`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+
+    toast.error(`${error.response.data}`);
   }
 };
 
 export const postQuestion = async (content, user, imageurl) => {
   try {
     await axiosInstance.post("post/question", { content, user, imageurl });
-    toast.success("Quesion Is Posted !", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.success("Quesion Is Posted !");
   } catch (err) {
-    toast.error("somthing error while posting question ", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.error("somthing error while posting question ");
   }
 };
 
 export const postAnswer = async (content, question, user) => {
   try {
     await axiosInstance.post("post/answer", { content, question, user });
-    toast.success("Answer Is Posted !", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.success("Answer Is Posted !");
   } catch (err) {
-    toast.error("somthing error while posting answer ", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.error("somthing error while posting answer ");
   }
 };
 
 export const postComment = async (content, answer, user) => {
   try {
     await axiosInstance.post("post/comment", { content, answer, user });
-    toast.success("Comment Is Posted !", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.success("Comment Is Posted !");
   } catch (err) {
-    toast.error("somthing error while posting comment ", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.error("somthing error while posting comment ");
   }
 };
 

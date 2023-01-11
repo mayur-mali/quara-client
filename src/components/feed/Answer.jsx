@@ -16,10 +16,10 @@ export default function Answer(props) {
     postComment.current.value = "";
     window.location.reload();
   };
-  console.log(props.ans);
+
   return (
     <div className="bg-gray-50 border rounded-md p-4">
-      <PostUser username={user.username} createAt={user.createAt} />
+      <PostUser username={user.username} createdAt={user.createdAt} />
       <h2 className="text-md font-medium capitalize mb-2">
         {content} {_id}
       </h2>
