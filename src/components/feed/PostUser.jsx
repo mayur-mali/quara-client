@@ -12,7 +12,10 @@ export default function PostUser(props) {
         <div>
           <Link to={`/user/${props.userid}`} className="flex items-center">
             <img
-              src="https://randomuser.me/api/portraits/men/62.jpg "
+              src={
+                props.profile ||
+                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              }
               className="rounded-full w-8 h-8"
               alt=""
             />

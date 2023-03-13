@@ -25,6 +25,7 @@ export default function Post(props) {
             <PostUser
               username={user.username}
               createdAt={user.createdAt}
+              profile={user.profilePicture}
               userid={user._id}
             />
             <Voting />

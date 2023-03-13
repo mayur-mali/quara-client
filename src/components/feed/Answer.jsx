@@ -13,7 +13,7 @@ export default function Answer(props) {
   const { user: currentUser } = useContext(AuthContext);
   const handlePostComment = () => {
     postComment(postCommentContent.current.value, _id, currentUser.user);
-    postComment.current.value = "";
+    postCommentContent.current.value = "";
     window.location.reload();
   };
 

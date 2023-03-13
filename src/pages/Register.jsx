@@ -18,6 +18,7 @@ export default function Register() {
         username: username.current.value,
         email: email.current.value,
         password: password.current.value,
+        profilePicture: `https://ui-avatars.com/api/?name=${username.current.value}`,
       };
       try {
         await axiosInstance.post("auth/register", user);

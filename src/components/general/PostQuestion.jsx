@@ -133,7 +133,9 @@ export default function PostQuestion() {
     <div className="w-full rounded-md bg-white p-4 shadow-md">
       <form onSubmit={handlePosting}>
         <div className="flex gap-x-4 h-26">
-          <div className="h-10 flex-none w-10 bg-black rounded-full mt-2"></div>
+          <div className="h-10 flex-none w-10 overflow-hidden rounded-full mt-2">
+            <img src={user.user.profilePicture} alt={user.user.username} />
+          </div>
           <textarea
             className="w-full p-2 focus:outline-none placeholder:text-2xl text-2xl"
             placeholder="What is your Question?"

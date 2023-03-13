@@ -2,68 +2,43 @@ import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../axiosIntence";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 export default function FollowBtn(props) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
-  const [followed, setFollowed] = useState(
-    currentUser.followings?.includes(props?.id)
-  );
+  const [loading, setLoading] = useState(false);
+  const [isFollow, setIsFollow] = useState(false);
+
+  useEffect(() => {
+    setIsFollow(props.user?.followers.includes(currentUser.user?._id));
+  }, [props.user?.followers, currentUser.user?._id]);
+
   async function follow() {
+    setLoading(true);
     try {
       await axiosInstance.put(`/users/${props.id}/follow`, {
         userId: currentUser.user._id,
       });
-      setFollowed(true);
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
+
       console.log(err);
     }
+    setIsFollow(!isFollow);
   }
 
-  async function unfollow() {
-    try {
-      await axiosInstance.put(`/users/${props.id}/unfollow`, {
-        userId: currentUser.user._id,
-      });
-      setFollowed(false);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  console.log(followed);
-  // const handleClick = async () => {
-  //   try {
-  //     if (followed) {
-  //       await axiosInstance.put(`/users/${props.id}/unfollow`, {
-  //         userId: currentUser._id,
-  //       });
-  //       dispatch({ type: "UNFOLLOW", payload: props.id });
-  //     } else {
-  //       await axiosInstance.put(`/users/${props.id}/follow`, {
-  //         userId: currentUser._id,
-  //       });
-  //       dispatch({ type: "FOLLOW", payload: props.id });
-  //     }
-  //     setFollowed(!followed);
-  //   } catch (err) {}
-  // };
   return (
     <>
-      {followed && (
-        <button
-          className="bg-indigo-500 z-20 text-white px-4 py-1 cursor-pointer rounded-md"
-          onClick={follow}
-        >
-          unfollow
-        </button>
-      )}
-      {!followed && (
-        <button
-          className="bg-indigo-500 z-20 text-white px-4 py-1 cursor-pointer rounded-md"
-          onClick={unfollow}
-        >
-          follow
-        </button>
-      )}
+      <button
+        className="bg-indigo-500 z-20 text-white px-4 py-1 cursor-pointer rounded-md"
+        onClick={follow}
+      >
+        {loading ? (
+          <AiOutlineLoading3Quarters className="animate-spin" />
+        ) : (
+          <>{isFollow ? "unfollow" : "follow"}</>
+        )}
+      </button>
     </>
   );
 }

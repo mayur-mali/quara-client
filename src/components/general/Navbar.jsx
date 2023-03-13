@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { LogOut } from "../../context/AuthAction";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -42,13 +43,28 @@ export default function Navbar() {
         {user && (
           <div className="max-w-4xl hidden md:block relative">
             <div
-              className="rounded-full h-10 w-10 bg-red-300 cursor-pointer"
+              className="rounded-full h-10 w-10 overflow-hidden cursor-pointer"
               onClick={() => setProfileMenu(!profileMenu)}
-            ></div>
+            >
+              <img
+                src={
+                  user.user.profilePicture ||
+                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                }
+                alt={user.user.username}
+              />
+            </div>
             {profileMenu && (
-              <div className="w-56 bg-white shadow-lg absolute right-0 top-12 p-4 rounded-lg">
-                <h2>{user.user.username}</h2>
-                <button onClick={() => dispatch(LogOut())}>sign out</button>
+              <div className="w-56 capitalize space-y-2 bg-white shadow-lg absolute right-0 top-12 p-4 rounded-lg">
+                <Link to={`/user/${user.user._id}`}>
+                  <h2>{user.user.username}</h2>
+                </Link>
+                <button
+                  onClick={() => dispatch(LogOut())}
+                  className="capitalize"
+                >
+                  sign out
+                </button>
               </div>
             )}
           </div>
@@ -86,9 +102,17 @@ export default function Navbar() {
             <div className="bg-white flex items-center justify-end px-8 absolute bottom-0 border-t-2 h-20 w-full">
               <div className="relative ">
                 <div
-                  className="rounded-full h-10 w-10 bg-red-300 cursor-pointer"
+                  className="rounded-full h-10 w-10 overflow-hidden cursor-pointer"
                   onClick={() => setProfileMenu(!profileMenu)}
-                ></div>
+                >
+                  <img
+                    src={
+                      user.user.profilePicture ||
+                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                    }
+                    alt={user.user.username}
+                  />
+                </div>
                 {profileMenu && (
                   <div className="w-56 bg-white shadow-lg absolute -top-20 right-0  p-4 rounded-lg">
                     <h2>{user.user.username}</h2>
